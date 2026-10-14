@@ -283,6 +283,20 @@ export async function initializeDatabase() {
     console.log(`Admin account created: ${process.env.ADMIN_EMAIL}. Now remove ADMIN_PASSWORD from .env`);
   }
 
+  if (process.env.ADMIN_RESET_PASSWORD && process.env.ADMIN_EMAIL) {
+    const hash = await bcrypt.hash(process.env.ADMIN_RESET_PASSWORD, 10);
+    const [r] = await pool.query("UPDATE admins SET password = ? WHERE email = ?", [
+      hash,
+      process.env.ADMIN_EMAIL,
+    ]);
+    console.log(
+      r.affectedRows
+        ? `🔑 Password reset for ${process.env.ADMIN_EMAIL}. Now REMOVE ADMIN_RESET_PASSWORD.`
+        : `⚠ No admin found with email ${process.env.ADMIN_EMAIL}`
+    );
+  }
+  
+
   console.log("✅ Database ready");
 }
 
