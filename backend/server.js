@@ -25,7 +25,12 @@ dotenv.config();
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-app.use(cors({ origin: process.env.CLIENT_URL }));
+const allowedOrigins = (process.env.CLIENT_URL || "")
+  .split(",")
+  .map((s) => s.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/auth", authRoutes);
