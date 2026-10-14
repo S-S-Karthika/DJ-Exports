@@ -1,9 +1,11 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-});
 
+const base = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+
+const api = axios.create({
+  baseURL: base.endsWith("/api") ? base : `${base}/api`,
+});
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("admin_token");
   if (token) config.headers.Authorization = `Bearer ${token}`;
