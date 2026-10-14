@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import pool from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import publicRoutes from "./routes/publicRoutes.js";
 import adminSettingsRoutes from "./routes/admin/settingsRoutes.js";
@@ -17,6 +16,8 @@ import adminProductRoutes from "./routes/admin/productRoutes.js";
 import adminStatsRoutes from "./routes/admin/statsRoutes.js";
 import adminGalleryRoutes from "./routes/admin/galleryRoutes.js";
 import adminBrandRoutes from "./routes/admin/brandRoutes.js";
+import pool, { initializeDatabase, startKeepAlive } from "./config/db.js";
+
 
 
 dotenv.config();
@@ -52,5 +53,13 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.DB_PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+
+
+initializeDatabase()
+  .catch((err) => console.error("❌ Database setup failed:", err.message))
+  .finally(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    startKeepAlive(10);
+  });
