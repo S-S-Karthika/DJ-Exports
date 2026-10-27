@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard, FolderTree, Package, Images, Inbox, Settings, LogOut, Menu, X, BadgeCheck, FileText, LayoutGrid,Palette,
+  LayoutDashboard, FolderTree, Package, Images, Inbox, Settings, LogOut, Menu, X, BadgeCheck, FileText, LayoutGrid,Palette,UserRound,
 } from "lucide-react";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
@@ -18,6 +18,7 @@ const links = [
   { to: "/admin/settings", label: "Settings", icon: Settings },
     { to: "/admin/logo", label: "Logo", icon: Palette },
     { to: "/admin/gallery", label: "Gallery", icon: LayoutGrid },
+      { to: "/admin/account", label: "Account", icon: UserRound },
 ];
 
 export default function AdminLayout() {
@@ -93,11 +94,15 @@ export default function AdminLayout() {
       </aside>
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-stone-200 bg-white px-4 sm:px-6">
+                <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-stone-200 bg-white px-4 sm:px-6">
           <button className="lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
             <Menu className="h-6 w-6" />
           </button>
-          <div className="ml-auto flex items-center gap-3">
+          <Link
+            to="/admin/account"
+            className="ml-auto flex items-center gap-3 rounded-lg px-2 py-1 transition hover:bg-stone-100"
+            title="Account"
+          >
             <div className="text-right">
               <p className="text-sm font-semibold text-stone-800">{admin?.name}</p>
               <p className="text-xs text-stone-500">{admin?.email}</p>
@@ -105,7 +110,7 @@ export default function AdminLayout() {
             <div className="grid h-9 w-9 place-items-center rounded-full bg-brand-700 font-semibold text-white">
               {admin?.name?.[0]?.toUpperCase()}
             </div>
-          </div>
+          </Link>
         </header>
 
         <main className="p-4 sm:p-6 lg:p-8">

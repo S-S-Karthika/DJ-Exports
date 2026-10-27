@@ -21,6 +21,7 @@ import Inquiries from "./pages/admin/Inquiries";
 import Gallery from "./pages/admin/Gallery";
 import GalleryPage from "./pages/public/GalleryPage";
 import LogoPage from "./pages/admin/LogoPage";
+import Account from "./pages/admin/Account";
 
 
 
@@ -62,6 +63,7 @@ export default function App() {
             <Route path="products" element={<Products />} />
             <Route path="inquiries" element={<Inquiries />} />
             <Route path="gallery" element={<Gallery />} />
+            <Route path="account" element={<Account />} />
             <Route path="*" element={<ComingSoon />} />
           </Route>
         </Route>

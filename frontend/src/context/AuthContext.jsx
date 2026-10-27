@@ -31,9 +31,10 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("admin_token");
     setAdmin(null);
   };
+    const updateAdmin = (data) => setAdmin(data);
 
   return (
-    <AuthContext.Provider value={{ admin, loading, login, logout }}>
+    <AuthContext.Provider value={{ admin, loading, login, logout , updateAdmin}}>
       {children}
     </AuthContext.Provider>
   );
