@@ -10,10 +10,11 @@ import { about as fallback } from "../../data/siteContent";
 import { useSite } from "../../context/SiteContext";
 import { ik } from "../../utils/image";
 
-const curtain = {
-  initial: { clipPath: "inset(100% 0% 0% 0%)" },
-  whileInView: { clipPath: "inset(0% 0% 0% 0%)" },
-  viewport: { once: true, margin: "-100px" },
+// Fade-up reveal (works on all phones)
+const reveal = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.1 },
 };
 
 const toTel = (num) => `tel:${num.replace(/[^\d+]/g, "")}`;
@@ -46,7 +47,6 @@ export default function AboutSection() {
   const hasImages = Boolean(mainImg || secondImg);
   const phones = [settings.phone_primary, settings.phone_secondary].filter(Boolean);
 
-  // Reserve space while loading so the page doesn't jump
   if (!loaded) return <section ref={ref} className="min-h-[600px]" />;
 
   return (
@@ -59,14 +59,14 @@ export default function AboutSection() {
           hasImages ? "max-w-7xl lg:grid-cols-2 lg:gap-24" : "max-w-3xl"
         }`}
       >
-        {/* Images (only if uploaded in Admin → About Page) */}
+        {/* Images */}
         {hasImages && (
           <div className="relative order-2 h-[460px] sm:h-[560px] lg:order-1">
             {mainImg && (
               <motion.div style={{ y: yMain }} className="absolute right-0 top-0 h-[85%] w-[78%]">
                 <motion.div
-                  {...curtain}
-                  transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1] }}
+                  {...reveal}
+                  transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                   className="group h-full w-full overflow-hidden rounded-2xl"
                 >
                   <img
@@ -82,8 +82,8 @@ export default function AboutSection() {
             {secondImg && (
               <motion.div style={{ y: ySmall }} className="absolute bottom-0 left-0 h-[48%] w-[52%]">
                 <motion.div
-                  {...curtain}
-                  transition={{ duration: 1.2, delay: 0.3, ease: [0.77, 0, 0.175, 1] }}
+                  {...reveal}
+                  transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="h-full w-full overflow-hidden rounded-2xl border-8 border-linen shadow-2xl"
                 >
                   <img
@@ -120,13 +120,7 @@ export default function AboutSection() {
               hasImages ? "" : "justify-center"
             }`}
           >
-            <motion.span
-              className="block h-px bg-brand-700"
-              initial={{ width: 0 }}
-              whileInView={{ width: 40 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            />
+            <span className="block h-px w-10 bg-brand-700" />
             About {settings.site_name || "Us"}
           </p>
 
