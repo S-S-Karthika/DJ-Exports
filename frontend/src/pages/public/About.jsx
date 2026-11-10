@@ -313,8 +313,8 @@ function KarurSection({ a }) {
           hasImage ? "max-w-7xl lg:grid-cols-2 lg:gap-24" : "max-w-3xl text-center"
         }`}
       >
-        {hasImage && (
-          <motion.div {...curtain} transition={curtainTransition} className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-2xl">
+                {hasImage && (
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-2xl">
             <motion.img
               style={{ y, scale: 1.2 }}
               src={ik(a.karur_image, "w-1000,q-80")}
@@ -322,7 +322,7 @@ function KarurSection({ a }) {
               loading="lazy"
               className="h-full w-full object-cover"
             />
-          </motion.div>
+          </div>
         )}
 
         <div>
