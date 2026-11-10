@@ -11,10 +11,11 @@ import { useSite } from "../../context/SiteContext";
 import { whyChooseUs, processSteps } from "../../data/siteContent";
 import { ik } from "../../utils/image";
 
+// Fade-up reveal (the clip-path "curtain" stayed hidden on some phones)
 const curtain = {
-  initial: { clipPath: "inset(100% 0% 0% 0%)" },
-  whileInView: { clipPath: "inset(0% 0% 0% 0%)" },
-  viewport: { once: true, margin: "-100px" },
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.1 },
 };
 const curtainTransition = { duration: 1.2, ease: [0.77, 0, 0.175, 1] };
 
