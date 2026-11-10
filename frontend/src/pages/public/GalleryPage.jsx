@@ -211,30 +211,24 @@ function Pill({ active, onClick, label, count }) {
 
 function Tile({ item, delay, onOpen }) {
   const ratio = item.width && item.height ? `${item.width} / ${item.height}` : "4 / 3";
-  const ease = [0.77, 0, 0.175, 1];
 
   return (
     <motion.button
       type="button"
       onClick={onOpen}
       aria-label={`View ${item.title || sectionLabel(item.section)}`}
-      initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
-      whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 1, delay, ease }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
       className="group relative block w-full overflow-hidden rounded-2xl bg-stone-200 text-left"
       style={{ aspectRatio: ratio }}
     >
-      {/* Outer div: hover zoom. Inner image: zooms out as it is revealed. */}
       <div className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-105">
-        <motion.img
+        <img
           src={ik(item.image, "w-800,q-80")}
           alt={item.title || sectionLabel(item.section)}
           loading="lazy"
-          initial={{ scale: 1.25 }}
-          whileInView={{ scale: 1 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 1.4, delay, ease: [0.22, 1, 0.36, 1] }}
           className="h-full w-full object-cover"
         />
       </div>
